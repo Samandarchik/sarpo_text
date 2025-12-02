@@ -1,0 +1,77 @@
+name: untitled7
+description: "A new Flutter project."
+publish_to: 'none' # Private package
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # UI & Icons
+  cupertino_icons: ^1.0.8
+  smooth_page_indicator: ^1.1.0
+  flutter_staggered_grid_view: ^0.7.0
+  carousel_slider: ^5.0.0
+  shimmer: ^3.0.0
+
+
+  # Networking & API
+  dio: ^5.4.0
+  get_it: ^8.0.3
+  retrofit: ^4.4.2
+  connectivity_plus: ^6.0.3
+  jwt_decoder: ^2.0.1
+  flutter_secure_storage: ^9.2.4
+
+
+  # State Management
+  bloc: ^9.0.0
+  flutter_bloc: ^9.1.0
+  provider: ^6.1.1
+  equatable: ^2.0.5
+  dartz: ^0.10.1
+
+  # Firebase
+  firebase_core: ^3.7.0
+  firebase_messaging: ^15.1.2
+
+  # Storage & Utilities
+  shared_preferences: ^2.5.3
+  mask_text_input_formatter: ^2.4.0
+  flutter_multi_formatter: ^2.12.4
+  geolocator: ^14.0.2
+  permission_handler: ^12.0.1
+  yandex_mapkit: ^4.1.0
+  easy_localization: ^3.0.7
+  dart_either: ^2.0.0
+  image_picker: ^1.0.7
+  http_parser: ^4.0.2
+  image: ^4.1.7
+  flutter_image_compress: ^2.1.0
+  file_picker: ^8.0.0
+  http: ^1.2.0
+
+  # Linting
+  flutter_lints: ^5.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # Code generation
+  build_runner: ^2.4.6
+  retrofit_generator: ^10.0.2
+  freezed: ^3.2.0
+  freezed_annotation: ^3.1.0
+  json_annotation: ^4.9.0
+  json_serializable: ^6.7.1
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/image/
+    - assets/translations/
