@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../../../core/exception/exception.dart';
+import '../../../../../../core/exception/exception.dart';
 import '../../../praduct/data/product_request/get_all_brand_request.dart';
 import '../../../praduct/data/product_request/product_response.dart';
 import '../../../praduct/data/product_response/get_all_brend_request.dart';

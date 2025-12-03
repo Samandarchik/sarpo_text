@@ -2,7 +2,7 @@
 
 import 'package:dio/dio.dart';
 
-import '../../../../../core/app_constante/app_constante.dart';
+import '../../../../../../core/app_constante/app_constante.dart';
 import '../../../praduct/data/product_request/get_all_brand_request.dart';
 import '../../../praduct/data/product_response/get_all_brend_request.dart';
 import '../../../praduct/data/product_response/get_all_cetagory.dart';

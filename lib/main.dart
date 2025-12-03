@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled7/data/network/service_locator.dart' hide setupLocator;
-import 'package:untitled7/pesination/praduct/chaild_new_product/domain/product_repository/product_repository.dart';
-import 'package:untitled7/pesination/praduct/chaild_new_product/presintation/bloc/child_bloc.dart';
-import 'package:untitled7/pesination/praduct/home.dart';
-import 'package:untitled7/pesination/praduct/new_product/domain/repositery/new_product_repository.dart';
-import 'package:untitled7/pesination/praduct/new_product/presintation/bloc/new_product_bolc.dart';
-import 'package:untitled7/pesination/praduct/praduct/domain/product_repository/product_repository.dart';
-import 'package:untitled7/pesination/praduct/praduct/presintation/bloc/product_bloc.dart';
 
-import 'package:untitled7/pesination/praduct/servis_locator_sarpo.dart';
 
-void main() async {
+import 'features/chaild_new_product/domain/product_repository/product_repository.dart';
+import 'features/chaild_new_product/presintation/bloc/child_bloc.dart';
+import 'features/home.dart';
+import 'features/new_product/domain/repositery/new_product_repository.dart';
+import 'features/new_product/presintation/bloc/new_product_bolc.dart';
+import 'features/praduct/domain/product_repository/product_repository.dart';
+import 'features/praduct/presintation/bloc/product_bloc.dart';
+
+
+
+import 'features/servis_locator_sarpo.dart';void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled7/pesination/praduct/chaild_new_product/presintation/dialog/image_add_dialog.dart';
 
 import '../../../new_product/data/new_praduct_request/new_brands.dart';
 import '../../data/product_request/add_child_product.dart';
+import 'image_add_dialog.dart';
 
 typedef OnProductEditeSaved =
     void Function(ChildProductAddRequest updatedProduct);

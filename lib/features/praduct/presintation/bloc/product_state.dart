@@ -1,6 +1,6 @@
-import 'package:untitled7/pesination/praduct/praduct/data/product_response/get_all_brend_request.dart';
 
 import '../../data/product_request/product_response.dart';
+import '../../data/product_response/get_all_brend_request.dart';
 
 enum ProductsScreenStatus { initial, loading, success, failure }
 

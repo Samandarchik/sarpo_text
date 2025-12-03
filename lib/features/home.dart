@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled7/pesination/praduct/praduct/data/product_response/product_request.dart';
-import 'package:untitled7/pesination/praduct/praduct/presintation/bloc/product_bloc.dart';
-import 'package:untitled7/pesination/praduct/praduct/presintation/bloc/product_event.dart';
-import 'package:untitled7/pesination/praduct/praduct/presintation/product_screen.dart';
-
+import 'package:untitled7/features/praduct/data/product_response/product_request.dart';
+import 'package:untitled7/features/praduct/presintation/bloc/product_bloc.dart';
+import 'package:untitled7/features/praduct/presintation/bloc/product_event.dart';
+import 'package:untitled7/features/praduct/presintation/product_screen.dart';
 
 import 'chaild_new_product/presintation/child_product_screen.dart';
 import 'new_product/presintation/new_product.dart';
+
 
 
 class HomeScreen extends StatefulWidget {
