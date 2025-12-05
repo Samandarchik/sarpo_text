@@ -1,19 +1,18 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 import '../../data/product_request/add_child_product.dart';
 
-typedef OnProductEditeSaved = void Function(ChildProductAddRequest updatedProduct);
+typedef OnProductEditeSaved =
+    void Function(ChildProductAddRequest updatedProduct);
 
 Future<void> showEditeProductChildDialog(
-    BuildContext context,
-    int id,
-    ChildProductAddRequest childProduct,
-    Function(ChildProductAddRequest) onSavedCallback,
-    ) async {
+  BuildContext context,
+  int id,
+  ChildProductAddRequest childProduct,
+  Function(ChildProductAddRequest) onSavedCallback,
+) async {
   await showDialog<void>(
     context: context,
     barrierDismissible: false,
@@ -23,12 +22,10 @@ Future<void> showEditeProductChildDialog(
         productId: id,
         onSavedCallback: onSavedCallback,
         childProductAddRequest: childProduct,
-
       );
     },
   );
 }
-
 
 class _AddChildProductDialogContent extends StatefulWidget {
   final OnProductEditeSaved onSavedCallback;
@@ -38,7 +35,7 @@ class _AddChildProductDialogContent extends StatefulWidget {
   const _AddChildProductDialogContent({
     required this.onSavedCallback,
     required this.productId,
-    required this.childProductAddRequest
+    required this.childProductAddRequest,
   });
 
   @override
@@ -54,6 +51,10 @@ class __EditeProductDialogContentState
   final TextEditingController productName = TextEditingController();
   final TextEditingController qrCode = TextEditingController();
   final TextEditingController size = TextEditingController();
+  final TextEditingController dollarExchange = TextEditingController();
+  final TextEditingController min_limit = TextEditingController();
+  final TextEditingController price = TextEditingController();
+  final TextEditingController stock = TextEditingController();
   final List<String> image = [];
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController brandController = TextEditingController();
@@ -70,14 +71,18 @@ class __EditeProductDialogContentState
   @override
   void initState() {
     super.initState();
-    imageList=widget.childProductAddRequest.image;
-    colorName.text=widget.childProductAddRequest.colorName;
-    color.text=widget.childProductAddRequest.color;
-    facturaName.text=widget.childProductAddRequest.fakturaName;
-    productName.text=widget.childProductAddRequest.name;
-    qrCode.text=widget.childProductAddRequest.qrCode;
-    size.text=widget.childProductAddRequest.size;
+    imageList = widget.childProductAddRequest.image;
+    colorName.text = widget.childProductAddRequest.colorName;
+    color.text = widget.childProductAddRequest.color;
+    facturaName.text = widget.childProductAddRequest.fakturaName;
+    productName.text = widget.childProductAddRequest.name;
+    qrCode.text = widget.childProductAddRequest.qrCode;
+    size.text = widget.childProductAddRequest.size;
     hexColor = "#${widget.childProductAddRequest.color}";
+    descriptionController.text=widget.childProductAddRequest.dollarExchangeRate.toString();
+    min_limit.text=widget.childProductAddRequest.minLimit.toString();
+    price.text=widget.childProductAddRequest.price.toString();
+    stock.text=widget.childProductAddRequest.stock.toString();
   }
 
   @override
@@ -89,35 +94,36 @@ class __EditeProductDialogContentState
 
   void _onSavePressed() {
 
-    // print("PASSED BUTTON, product: $product");
-
+    int dollarExchangeNumber = int.tryParse(dollarExchange.text) ?? 0;
+    int minLimitNumber = int.tryParse(min_limit.text) ?? 0;
+    int priceNumber = int.tryParse(price.text) ?? 0;
+    int stockNumber = int.tryParse(stock.text) ?? 0;
     final updatedProduct = ChildProductAddRequest(
-      color: color.text,
+      color: hexColor,
       colorName: colorName.text,
+      dollarExchangeRate: dollarExchangeNumber,
       fakturaName: facturaName.text,
-      image: [],
+      image: imageList,
+      minLimit: minLimitNumber,
       name: productName.text,
       productId: widget.productId,
       qrCode: qrCode.text,
       size: size.text,
-      price: 10
+      price: priceNumber,
+      stock: stockNumber,
     );
     print("CALLBACK worked!${productName.text}");
     widget.onSavedCallback(updatedProduct);
 
-
-
     Navigator.pop(context);
 
     ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Mahsulot tahrirlash uchun yuborildi...")));
+      const SnackBar(content: Text("Mahsulot tahrirlash uchun yuborildi...")),
+    );
   }
-
-
 
   @override
   Widget build(BuildContext context) {
-
     return AlertDialog(
       title: const Text("Mahsulot qoshish "),
       content: SingleChildScrollView(
@@ -156,8 +162,6 @@ class __EditeProductDialogContentState
     );
   }
 
-
-
   Widget _buildGeneralInformation() {
     return Container(
       padding: const EdgeInsets.all(24),
@@ -169,11 +173,12 @@ class __EditeProductDialogContentState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           const SizedBox(height: 24),
 
-
-          const Text('Mahsulot nomi', style: TextStyle(fontWeight: FontWeight.w500)),
+          const Text(
+            'Mahsulot nomi',
+            style: TextStyle(fontWeight: FontWeight.w500),
+          ),
           const SizedBox(height: 8),
           TextField(
             controller: productName,
@@ -191,21 +196,28 @@ class __EditeProductDialogContentState
 
           const SizedBox(height: 20),
 
-
           Row(
             children: [
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Maxsulot rangi nomi ', style: TextStyle(fontWeight: FontWeight.w500)),
+                    const Text(
+                      'Maxsulot rangi nomi ',
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
                     const SizedBox(height: 8),
                     TextField(
                       controller: colorName,
                       decoration: InputDecoration(
                         hintText: 'Maxsulot rangi nomi',
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
                       ),
                     ),
                   ],
@@ -216,7 +228,10 @@ class __EditeProductDialogContentState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Maxsulot rangi kodi', style: TextStyle(fontWeight: FontWeight.w500)),
+                    const Text(
+                      'Maxsulot rangi kodi',
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
                     const SizedBox(height: 8),
                     DropdownButtonFormField<int>(
                       onChanged: (int? value) {
@@ -251,7 +266,7 @@ class __EditeProductDialogContentState
                           final int colorValue = brandData['colorCode'] as int;
 
                           hexColor =
-                          '#${colorValue.toRadixString(16).substring(2).toUpperCase()}';
+                              '#${colorValue.toRadixString(16).substring(2).toUpperCase()}';
 
                           return DropdownMenuItem<int>(
                             value: brandId,
@@ -286,11 +301,8 @@ class __EditeProductDialogContentState
                             ),
                           );
                         }).toList(),
-
-
                       ],
                     ),
-
                   ],
                 ),
               ),
@@ -300,21 +312,28 @@ class __EditeProductDialogContentState
 
           const SizedBox(height: 20),
 
-
           Row(
             children: [
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('factira nomi', style: TextStyle(fontWeight: FontWeight.w500)),
+                    const Text(
+                      'Factira nomi',
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
                     const SizedBox(height: 8),
                     TextField(
                       controller: facturaName,
                       decoration: InputDecoration(
-                        hintText: 'actira nomi',
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        hintText: 'Factira nomi',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
                       ),
                     ),
                   ],
@@ -325,14 +344,22 @@ class __EditeProductDialogContentState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('qr code', style: TextStyle(fontWeight: FontWeight.w500)),
+                    const Text(
+                      'qr code',
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
                     const SizedBox(height: 8),
                     TextField(
                       controller: qrCode,
                       decoration: InputDecoration(
                         hintText: 'qr code',
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
                       ),
                     ),
                   ],
@@ -347,18 +374,135 @@ class __EditeProductDialogContentState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Maxsulot xajmi', style: TextStyle(fontWeight: FontWeight.w500)),
+                    const Text(
+                      'Maxsulot narxi',
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
                     const SizedBox(height: 8),
                     TextField(
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
+                      controller: price,
+                      decoration: InputDecoration(
+                        hintText: 'Maxsulot narxi',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Dollar kursi',
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller:dollarExchange ,
+                      decoration: InputDecoration(
+                        hintText: 'Dollar kursi',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 16),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Minimal chegara',
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: min_limit,
+                      decoration: InputDecoration(
+                        hintText: 'Minimal chegara',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Zaxira',
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller:stock ,
+                      decoration: InputDecoration(
+                        hintText: 'Zaxira',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 16),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Maxsulot xajmi',
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       controller: size,
                       decoration: InputDecoration(
-                        hintText: 'Faqat raqam kiritiladi',
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-
+                        hintText: 'Maxsulot xajmi',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
                       ),
                     ),
                   ],
@@ -374,6 +518,7 @@ class __EditeProductDialogContentState
               const SizedBox(width: 16),
             ],
           ),
+
         ],
       ),
     );

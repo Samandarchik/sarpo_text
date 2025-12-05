@@ -69,7 +69,8 @@ class ChildProductsScreenBloc
       );
     });
 
-    // 🔵 ADD
+
+
     on<ChildAddProductsEvent>((event, emit) async {
       emit(state.copyWith(status: ChildProductsScreenStatus.loading));
 

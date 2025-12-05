@@ -7,8 +7,12 @@ import 'package:untitled7/features/praduct/domain/product_repository/product_rep
 import '../core/network/dio_settings.dart';
 import 'chaild_new_product/data/product_source/child_product_source.dart';
 import 'chaild_new_product/domain/product_repository/product_repository.dart';
+
+import 'incoming_goods/data/source/incoming_goods_source.dart';
+import 'incoming_goods/domain/repository/repository_incoming_goods.dart';
 import 'new_product/data/data_source/new_product_source.dart';
 import 'new_product/domain/repositery/new_product_repository.dart';
+
 
 
 final getIt = GetIt.instance;
@@ -42,6 +46,7 @@ Future<void> setupLocator() async {
         () => ProductRepositoryImpl(getIt<ProductSource>()),
   );
 
+  // ✅ FAQAT BIR MARTA!
   getIt.registerLazySingleton<ChildProductSource>(
         () => ChildProductSourceImpl(getIt<Dio>()),
   );
@@ -50,6 +55,20 @@ Future<void> setupLocator() async {
         () => ChildProductRepositoryImpl(getIt<ChildProductSource>()),
   );
 
+  // ❌ Bu ikki qatorni O'CHIRING (yuqorida allaqachon bor)
+  // getIt.registerLazySingleton<ChildProductSource>(
+  //   () => ChildProductSourceImpl(getIt<Dio>()),
+  // );
+  //
+  // getIt.registerLazySingleton<ChildProductRepository>(
+  //   () => ChildProductRepositoryImpl(getIt<ChildProductSource>()),
+  // );
 
+  getIt.registerLazySingleton<IncomingGoodsSource>(
+        () => IncomingGoodsSourceImpl(getIt<Dio>()),
+  );
 
+  getIt.registerLazySingleton<IncomingGoodsRepository>(
+        () => IncomingGoodsRepositoryImpl(getIt<IncomingGoodsSource>()),
+  );
 }

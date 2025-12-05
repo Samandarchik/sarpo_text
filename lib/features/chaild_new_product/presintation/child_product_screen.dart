@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 import '../../praduct/data/product_request/edite_product_request.dart';
 import '../data/product_request/add_child_product.dart';
 import '../data/product_request/child_product_delete.dart';
@@ -13,16 +12,16 @@ import 'dialog/edite_product_dialog.dart';
 
 class ChildProductsScreen extends StatefulWidget {
   final VoidCallback onAddNewProduct;
-  final Function(EditeProductRequest product) onEditProduct;
+  final VoidCallback onTabBack;
   final Function(int product) id;
   final int product_id;
 
   const ChildProductsScreen({
     Key? key,
     required this.onAddNewProduct,
-    required this.onEditProduct,
+    required this.onTabBack,
     required this.product_id,
-    required this.id
+    required this.id,
   }) : super(key: key);
 
   @override
@@ -41,7 +40,7 @@ class _ChildProductsScreenState extends State<ChildProductsScreen> {
   void _fetchProducts() {
     context.read<ChildProductsScreenBloc>().add(
       ChildGetAlProductsScreenBlocEvent(
-        productGetAllRequest:widget.product_id
+        productGetAllRequest: widget.product_id,
       ),
     );
   }
@@ -59,9 +58,7 @@ class _ChildProductsScreenState extends State<ChildProductsScreen> {
       builder: (context, state) {
         return Column(
           children: [
-
             _buildHeader(),
-
 
             Expanded(
               child: SingleChildScrollView(
@@ -163,27 +160,32 @@ class _ChildProductsScreenState extends State<ChildProductsScreen> {
                                 if (value == 'edit') {
                                   final data = ChildProductAddRequest(
                                     color: product.color,
-                                    colorName:product.colorName,
-                                    fakturaName:product.fakturaName,
+                                    colorName: product.colorName,
+                                    dollarExchangeRate:
+                                        product.dollarExchangeRate,
+                                    fakturaName: product.fakturaName,
                                     image: [],
+                                    minLimit: product.minLimit,
                                     name: product.name,
                                     productId: product.id,
                                     qrCode: product.qrCode,
                                     size: product.size,
-                                    price: 10
-
+                                    price: product.price,
+                                    stock: product.stock,
                                   );
-
 
                                   showEditeProductChildDialog(
                                     context,
                                     product.id,
                                     data,
-                                        (updatedChildProduct) {
-                                          context.read<ChildProductsScreenBloc>().add(
+                                    (updatedChildProduct) {
+                                      context
+                                          .read<ChildProductsScreenBloc>()
+                                          .add(
                                             ChildEditeProductsEvent(
-                                                newProductRequest: updatedChildProduct,
-                                                product_id: product.id
+                                              newProductRequest:
+                                                  updatedChildProduct,
+                                              product_id: product.id,
                                             ),
                                           );
                                     },
@@ -192,7 +194,6 @@ class _ChildProductsScreenState extends State<ChildProductsScreen> {
                                   setState(() {
                                     _fetchProducts();
                                   });
-
                                 } else if (value == 'delete') {
                                   context.read<ChildProductsScreenBloc>().add(
                                     ChildDeleteProductsScreenBlocEvent(
@@ -241,9 +242,28 @@ class _ChildProductsScreenState extends State<ChildProductsScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: (){
+                          widget.onTabBack();
+                        },
+                        child: Icon(Icons.arrow_back_rounded,size: 32,),
+                      )
+,
+
+                      SizedBox(width: 32,),
+
+                    ],
+                  ),
+                  SizedBox(height: 16,),
+
                   Text(
                     'Mahsulotlar Ro\'yxati',
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   SizedBox(height: 4),
                   Text(
@@ -253,18 +273,12 @@ class _ChildProductsScreenState extends State<ChildProductsScreen> {
                 ],
               ),
               ElevatedButton.icon(
-                onPressed:() {
-                  showAddProductDialog(
-                    context,
-                      widget.product_id,
-                      (date){
-                        context.read<ChildProductsScreenBloc>().add(
-                          ChildAddProductsEvent(
-                            newProductRequest: date,
-                          ),
-                        );
-                      }
-                  );
+                onPressed: () {
+                  showAddProductDialog(context, widget.product_id, (date) {
+                    context.read<ChildProductsScreenBloc>().add(
+                      ChildAddProductsEvent(newProductRequest: date),
+                    );
+                  });
                 },
                 icon: Icon(Icons.add, size: 18),
                 label: Text('Yangi Mahsulot Qo\'shish'),
@@ -280,35 +294,8 @@ class _ChildProductsScreenState extends State<ChildProductsScreen> {
             ],
           ),
           SizedBox(height: 24),
+
           // Search bar
-          Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Nom bo\'yicha qidirish...',
-                    prefixIcon: Icon(Icons.search, color: Colors.grey[400]),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: Colors.grey[300]!),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: Colors.grey[300]!),
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
-                ),
-              ),
-              SizedBox(width: 12),
-            ],
-          ),
         ],
       ),
     );
@@ -345,30 +332,4 @@ class _ChildProductsScreenState extends State<ChildProductsScreen> {
   //     ),
   //   );
   // }
-
-  Widget _buildPaginationButton(String text, bool isActive) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 4),
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        color: isActive ? Colors.blue[600] : Colors.white,
-        border: Border.all(
-          color: isActive ? Colors.blue[600]! : Colors.grey[300]!,
-        ),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Center(
-        child: Text(
-          text,
-          style: TextStyle(
-            color: isActive ? Colors.white : Colors.grey[700],
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ),
-    );
-  }
-
-
 }

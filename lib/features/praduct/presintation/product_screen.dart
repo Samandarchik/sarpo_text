@@ -12,13 +12,13 @@ import 'dialog/EditeProductDialog.dart';
 class ProductsScreen extends StatefulWidget {
   final VoidCallback onAddNewProduct;
   final Function(EditeProductRequest product) onEditProduct;
-  final Function(int id ) id;
+  final Function(int id) id;
 
   const ProductsScreen({
     Key? key,
     required this.onAddNewProduct,
     required this.onEditProduct,
-    required this.id
+    required this.id,
   }) : super(key: key);
 
   @override
@@ -80,7 +80,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
     );
   }
 
-
   Widget _buildProductListTable(List<dynamic> products, BuildContext context) {
     return Container(
       width: double.infinity,
@@ -136,26 +135,22 @@ class _ProductsScreenState extends State<ProductsScreen> {
             ),
           ),
 
-
           ...products.map((product) {
             return GestureDetector(
               onTap: () {
                 widget.id(product.id!);
               },
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
                 decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: Colors.grey[200]!),
-                  ),
+                  border: Border(bottom: BorderSide(color: Colors.grey[200]!)),
                 ),
                 child: Row(
                   children: [
-
-                    Expanded(
-                      flex: 1,
-                      child: Text(product.id.toString()),
-                    ),
+                    Expanded(flex: 1, child: Text(product.id.toString())),
 
                     Expanded(
                       flex: 3,
@@ -184,16 +179,16 @@ class _ProductsScreenState extends State<ProductsScreen> {
                               );
 
                               showEditeProductDialog(context, data, (d) async {
-
-
                                 context.read<ProductsScreenBloc>().add(
                                   EditeProductsEvent(newProductRequest: d),
                                 );
 
-                                await context.read<ProductsScreenBloc>().stream.last;
+                                await context
+                                    .read<ProductsScreenBloc>()
+                                    .stream
+                                    .last;
 
                                 _fetchProducts();
-
                               });
                             } else if (value == 'delete') {
                               context.read<ProductsScreenBloc>().add(
@@ -204,10 +199,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                             }
                           },
                           itemBuilder: (context) => const [
-                            PopupMenuItem(
-                              value: 'edit',
-                              child: Text('Edit'),
-                            ),
+                            PopupMenuItem(value: 'edit', child: Text('Edit')),
                             PopupMenuItem(
                               value: 'delete',
                               child: Text('Delete'),
@@ -225,9 +217,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
       ),
     );
   }
-
-
-
 
   Widget _buildHeader() {
     return Container(
@@ -268,91 +257,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
             ],
           ),
           const SizedBox(height: 24),
-          Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Nom bo\'yicha qidirish...',
-                    prefixIcon: Icon(Icons.search, color: Colors.grey[400]),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: Colors.grey[300]!),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: Colors.grey[300]!),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-            ],
-          ),
         ],
-      ),
-    );
-  }
-
-  // Widget _buildPagination() {
-  //   return Container(
-  //     padding: const EdgeInsets.all(24),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //       children: [
-  //         Text(
-  //           '48 natijadan 1 dan 12 gachasi ko\'rsatilmoqda',
-  //           style: TextStyle(color: Colors.grey[600], fontSize: 14),
-  //         ),
-  //         Row(
-  //           children: [
-  //             IconButton(
-  //               onPressed: () {},
-  //               icon: const Icon(Icons.chevron_left),
-  //               color: Colors.grey[400],
-  //             ),
-  //             _buildPaginationButton('1', true),
-  //             _buildPaginationButton('2', false),
-  //             _buildPaginationButton('3', false),
-  //             IconButton(
-  //               onPressed: () {},
-  //               icon: const Icon(Icons.chevron_right),
-  //               color: Colors.grey[600],
-  //             ),
-  //           ],
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  Widget _buildPaginationButton(String text, bool isActive) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 4),
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        color: isActive ? Colors.blue[600] : Colors.white,
-        border: Border.all(
-          color: isActive ? Colors.blue[600]! : Colors.grey[300]!,
-        ),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Center(
-        child: Text(
-          text,
-          style: TextStyle(
-            color: isActive ? Colors.white : Colors.grey[700],
-            fontWeight: FontWeight.w500,
-          ),
-        ),
       ),
     );
   }
