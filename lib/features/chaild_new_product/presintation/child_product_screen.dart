@@ -98,7 +98,12 @@ class _ChildProductsScreenState extends State<ChildProductsScreen> {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
-
+                      DataColumn(
+                        label: Text(
+                          'price',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
                       DataColumn(
                         label: Text(
                           'Maxsulot rangi',
@@ -113,10 +118,17 @@ class _ChildProductsScreenState extends State<ChildProductsScreen> {
                       ),
                       DataColumn(
                         label: Text(
-                          'Miqdori',
+                          'Maxsulot qshilgan sana',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
+                      DataColumn(
+                        label: Text(
+                          'Dollor kurs',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+
                       DataColumn(
                         label: Text(
                           '',
@@ -137,6 +149,13 @@ class _ChildProductsScreenState extends State<ChildProductsScreen> {
 
                           DataCell(
                             Text(
+                              product.price.toString(),
+                              style: TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                          ),
+
+                          DataCell(
+                            Text(
                               product.colorName.toString(),
                               style: TextStyle(fontWeight: FontWeight.w500),
                             ),
@@ -149,10 +168,17 @@ class _ChildProductsScreenState extends State<ChildProductsScreen> {
                           ),
                           DataCell(
                             Text(
-                              product.size.toString(),
+                              product.createdAt.toString(),
                               style: TextStyle(fontWeight: FontWeight.w500),
                             ),
                           ),
+                          DataCell(
+                            Text(
+                              product.dollarExchangeRate.toString(),
+                              style: TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                          ),
+
                           DataCell(
                             PopupMenuButton<String>(
                               icon: Icon(Icons.more_vert),
